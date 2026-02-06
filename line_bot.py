@@ -33,9 +33,12 @@ def handle_message(event):
     )
 
 
-@app.route("/webhook", methods=["POST"])
+@app.route("/webhook", methods=["GET", "POST"])
 def webhook():
-    """LINE 平台會把使用者訊息 POST 到這個網址"""
+    """LINE 平台會 GET（驗證）或 POST（訊息）到這個網址，都要回 200"""
+    if request.method == "GET":
+        # LINE 後台按「Verify」時會送 GET，回 200 才能通過
+        return "OK"
     signature = request.headers.get("X-Line-Signature", "")
     body = request.get_data(as_text=True)
     try:
