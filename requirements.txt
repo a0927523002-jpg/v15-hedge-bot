@@ -1,0 +1,9 @@
+# V1.5 全天候避險系統 - 依賴
+python-dotenv>=1.0.0   # 從 .env 載入金鑰
+shioaji
+google-genai
+flask
+gunicorn
+line-bot-sdk
+pandas
+schedule

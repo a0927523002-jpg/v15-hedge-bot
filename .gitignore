@@ -1,0 +1,14 @@
+# 敏感資訊：絕對不要提交到 git
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# 專案產出（可依需要調整）
+*.log
+state.json
