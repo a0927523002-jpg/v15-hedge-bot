@@ -45,9 +45,9 @@ def webhook():
     try:
         handler.handle(body, signature)
     except Exception as e:
-        # 印出完整錯誤與 traceback，Render 日誌才看得到
-        print("Webhook 處理錯誤:", e)
-        print(traceback.format_exc())
+        # 強制輸出到 Render 日誌（flush=True），方便除錯
+        print("Webhook 處理錯誤:", e, flush=True)
+        print(traceback.format_exc(), flush=True)
         abort(400)
     return "OK"
 
