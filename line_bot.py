@@ -4,11 +4,12 @@ V1.5 - LINE 機器人測試（B 計畫）
 收到使用者文字訊息時回覆一句，確認 Webhook 與金鑰正常。
 使用 linebot.v3 API，避免棄用警告。
 """
+import sys
 import logging
 import traceback
 from flask import Flask, request, abort
 
-# 讓錯誤出現在 Render 日誌
+# 讓錯誤出現在 Render 日誌（stdout/stderr 都會被記錄）
 logger = logging.getLogger(__name__)
 from linebot.v3 import WebhookHandler
 from linebot.v3.messaging import Configuration, MessagingApi, ReplyMessageRequest, TextMessage
@@ -49,7 +50,9 @@ def webhook():
     try:
         handler.handle(body, signature)
     except Exception as e:
-        # 用 logging 印出完整錯誤，Render 紀錄裡才容易看到
+        # 印到 stderr，Render 紀錄通常會顯示
+        err_msg = f"Webhook 處理錯誤: {e}\n{traceback.format_exc()}"
+        print(err_msg, file=sys.stderr, flush=True)
         logger.exception("Webhook 處理錯誤: %s", e)
         abort(400)
     return "OK"
